@@ -1,0 +1,30 @@
+﻿Build started 7/30/2022 12:47:17 AM.
+     1>Project "c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Xbox360DirectX9Demo.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Xbox360DirectX9Demo.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _DEBUG /D _XBOX /GF- /Gm /MTd /GS- /Gy- /fp:fast /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Yc"StdAfx.h" /Fp"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Debug\Xbox360DirectX9Demo.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP stdafx.cpp /callcap /FI"C:\Program Files (x86)\Microsoft Xbox 360 SDK\\include\xbox\xbox_intellisense_platform.h"
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\CL.exe /c /Zi /nologo /W3 /WX- /Od /D _DEBUG /D _XBOX /GF- /Gm /MTd /GS- /Gy- /fp:fast /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Yu"StdAfx.h" /Fp"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Debug\Xbox360DirectX9Demo.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP Xbox360DirectX9Demo.cpp XboxController.cpp /callcap /FI"C:\Program Files (x86)\Microsoft Xbox 360 SDK\\include\xbox\xbox_intellisense_platform.h"
+         XboxController.cpp
+         Xbox360DirectX9Demo.cpp
+     1>Xbox360DirectX9Demo.cpp(81): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Xbox360DirectX9Demo.cpp(107): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\link.exe /ERRORREPORT:PROMPT /OUT:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Debug\Xbox360DirectX9Demo.exe" /INCREMENTAL /NOLOGO xapilibd.lib d3d9d.lib d3dx9d.lib xgraphicsd.lib xboxkrnl.lib xnetd.lib xaudiod2.lib xactd3.lib x3daudiod.lib xmcored.lib xbdm.lib vcompd.lib /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Debug\Xbox360DirectX9Demo.pdb" /STACK:"262144","262144" /TLBID:1 /IMPLIB:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Debug\Xbox360DirectX9Demo.lib" Debug\stdafx.obj
+         Debug\Xbox360DirectX9Demo.obj
+         Debug\XboxController.obj /XEX:NO
+       ImageXex:
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\imagexex.exe /out:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Debug\Xbox360DirectX9Demo.xex" "c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Debug\Xbox360DirectX9Demo.exe" 
+         Microsoft(R) Xbox 360 Image File Builder Version 2.0.21256.0
+         (c)2012 Microsoft Corporation. All rights reserved.
+         
+       FinalizeBuildStatus:
+         Deleting file "Debug\Xbox360DirectX9Demo.unsuccessfulbuild".
+         Touching "Debug\Xbox360DirectX9Demo.lastbuildstate".
+     1>Done Building Project "c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Xbox360DirectX9Demo.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.00
