@@ -11,4 +11,9 @@
 #define DPAD_DOWN 0x2
 #define DPAD_LEFT 0x4
 #define DPAD_RIGHT 0x8
-unsigned short getControllerState();
+struct ThumbStickState {
+	short x, y;
+};
+unsigned short getControllerButtons();
+ThumbStickState* getLeftThumbStick();
+ThumbStickState* getRightThumbStick();

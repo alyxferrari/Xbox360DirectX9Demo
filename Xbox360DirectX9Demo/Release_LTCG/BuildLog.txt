@@ -1,31 +1,28 @@
-﻿Build started 7/30/2022 12:47:24 AM.
-     1>Project "c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Xbox360DirectX9Demo.vcxproj" on node 2 (build target(s)).
+﻿Build started 7/30/2022 1:37:50 AM.
+     1>Project "C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Xbox360DirectX9Demo.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release_LTCG\Xbox360DirectX9Demo.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\CL.exe /c /Zi /nologo /W3 /WX- /Ox /Os /GL /D NDEBUG /D _XBOX /D LTCG /GF /Gm- /MT /GS- /Gy /fp:fast /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Yc"StdAfx.h" /Fp"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.pch" /Fo"Release_LTCG\\" /Fd"Release_LTCG\vc100.pdb" /TP stdafx.cpp /FI"C:\Program Files (x86)\Microsoft Xbox 360 SDK\\include\xbox\xbox_intellisense_platform.h"
-         stdafx.cpp
-         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\CL.exe /c /Zi /nologo /W3 /WX- /Ox /Os /GL /D NDEBUG /D _XBOX /D LTCG /GF /Gm- /MT /GS- /Gy /fp:fast /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Yu"StdAfx.h" /Fp"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.pch" /Fo"Release_LTCG\\" /Fd"Release_LTCG\vc100.pdb" /TP Xbox360DirectX9Demo.cpp XboxController.cpp /FI"C:\Program Files (x86)\Microsoft Xbox 360 SDK\\include\xbox\xbox_intellisense_platform.h"
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\CL.exe /c /Zi /nologo /W3 /WX- /Ox /Os /GL /D NDEBUG /D _XBOX /D LTCG /GF /Gm- /MT /GS- /Gy /fp:fast /fp:except- /Zc:wchar_t /Zc:forScope /GR- /openmp- /Yu"StdAfx.h" /Fp"C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.pch" /Fo"Release_LTCG\\" /Fd"Release_LTCG\vc100.pdb" /TP Xbox360DirectX9Demo.cpp /FI"C:\Program Files (x86)\Microsoft Xbox 360 SDK\\include\xbox\xbox_intellisense_platform.h"
          Xbox360DirectX9Demo.cpp
-     1>Xbox360DirectX9Demo.cpp(81): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-     1>Xbox360DirectX9Demo.cpp(107): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
-         XboxController.cpp
+     1>Xbox360DirectX9Demo.cpp(82): warning C4800: 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
        Link:
-         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\link.exe /ERRORREPORT:PROMPT /OUT:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.exe" /INCREMENTAL:NO /NOLOGO xapilib.lib d3d9ltcg.lib d3dx9.lib xgraphics.lib xboxkrnl.lib xnet.lib xaudio2.lib xact3ltcg.lib x3daudioltcg.lib xmcoreltcg.lib vcomp.lib /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.pdb" /STACK:"262144","262144" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /RELEASE /IMPLIB:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.lib" Release_LTCG\stdafx.obj
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.exe" /INCREMENTAL:NO /NOLOGO xapilib.lib d3d9ltcg.lib d3dx9.lib xgraphics.lib xboxkrnl.lib xnet.lib xaudio2.lib xact3ltcg.lib x3daudioltcg.lib xmcoreltcg.lib vcomp.lib /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.pdb" /STACK:"262144","262144" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /RELEASE /IMPLIB:"C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.lib" Release_LTCG\stdafx.obj
          Release_LTCG\Xbox360DirectX9Demo.obj
          Release_LTCG\XboxController.obj /XEX:NO
          Generating code
          Finished generating code
        ImageXex:
-         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\imagexex.exe /out:"c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.xex" "c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.exe" 
+         C:\Program Files (x86)\Microsoft Xbox 360 SDK\bin\win32\imagexex.exe /out:"C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.xex" "C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Release_LTCG\Xbox360DirectX9Demo.exe" 
          Microsoft(R) Xbox 360 Image File Builder Version 2.0.21256.0
          (c)2012 Microsoft Corporation. All rights reserved.
          
        FinalizeBuildStatus:
          Deleting file "Release_LTCG\Xbox360DirectX9Demo.unsuccessfulbuild".
          Touching "Release_LTCG\Xbox360DirectX9Demo.lastbuildstate".
-     1>Done Building Project "c:\Users\alyx ferrari\documents\visual studio 2010\Projects\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Xbox360DirectX9Demo.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Alyx Ferrari\Documents\GitHub\Xbox360DirectX9Demo\Xbox360DirectX9Demo\Xbox360DirectX9Demo.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:05.27
+Time Elapsed 00:00:04.27

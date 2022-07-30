@@ -9,6 +9,7 @@ D3DPixelShader* g_pixelShader;
 XMMATRIX g_matrixWorld;
 XMMATRIX g_matrixProjection;
 XMMATRIX g_matrixView;
+float g_zRotation = 0.0f;
 bool g_shouldBreak = false;
 bool g_widescreen = true;
 const char* g_vertexShaderSource =
@@ -104,7 +105,17 @@ void render() {
 	g_d3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 void updateInputs() {
-	g_shouldBreak = getControllerState() & BUTTON_BACK;
+	g_shouldBreak = (getControllerButtons() & BUTTON_BACK) > 0;
+	ThumbStickState* state = getLeftThumbStick();
+	if (state->x < -16384) {
+		g_zRotation += 0.01f;
+	}
+	if (state->x > 16384) {
+		g_zRotation -= 0.01f;
+	}
+}
+void updateScene() {
+	g_matrixWorld = XMMatrixRotationZ(g_zRotation);
 }
 void deinitD3D() {
 	g_d3dDevice->Release();
@@ -115,6 +126,7 @@ void __cdecl main() {
 	initScene();
 	while (true) {
 		updateInputs();
+		updateScene();
 		render();
 		if (g_shouldBreak) break;
 	}
