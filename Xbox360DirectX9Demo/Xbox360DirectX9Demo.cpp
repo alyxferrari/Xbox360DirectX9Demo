@@ -35,18 +35,18 @@ const char* g_pixelShaderSource =
 "float4 main(PS_IN In) : COLOR {             "
 "    return In.Color;                        "
 "}                                           ";
-struct HWVertex {
-	float position[3];
-	DWORD color;
+struct DemoVertex {
+	float x, y, z;
+	unsigned long color;
 };
 void initScene() {
 	ID3DXBuffer* vertexShaderCode;
 	ID3DXBuffer* vertexErrorMessage;
-	HRESULT hr = D3DXCompileShader(g_vertexShaderSource, (unsigned int) strlen(g_vertexShaderSource), NULL, NULL, "main", "vs_2_0", 0, &vertexShaderCode, &vertexErrorMessage, NULL);
-	g_d3dDevice->CreateVertexShader((DWORD*) vertexShaderCode->GetBufferPointer(), &g_vertexShader);
+	D3DXCompileShader(g_vertexShaderSource, (unsigned int) strlen(g_vertexShaderSource), NULL, NULL, "main", "vs_2_0", 0, &vertexShaderCode, &vertexErrorMessage, NULL);
+	g_d3dDevice->CreateVertexShader((unsigned long*) vertexShaderCode->GetBufferPointer(), &g_vertexShader);
 	ID3DXBuffer* pixelShaderCode;
 	ID3DXBuffer* pixelErrorMessage;
-	hr = D3DXCompileShader(g_pixelShaderSource, (unsigned int) strlen(g_pixelShaderSource), NULL, NULL, "main", "ps_2_0", 0, &pixelShaderCode, &pixelErrorMessage, NULL);
+	D3DXCompileShader(g_pixelShaderSource, (unsigned int) strlen(g_pixelShaderSource), NULL, NULL, "main", "ps_2_0", 0, &pixelShaderCode, &pixelErrorMessage, NULL);
 	g_d3dDevice->CreatePixelShader((DWORD*) pixelShaderCode->GetBufferPointer(), &g_pixelShader);
 	D3DVERTEXELEMENT9 vertexElements[3] = {
 		{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
@@ -54,15 +54,15 @@ void initScene() {
 		D3DDECL_END(),
 	};
 	g_d3dDevice->CreateVertexDeclaration(vertexElements, &g_vertexDeclaration);
-	g_d3dDevice->CreateVertexBuffer(3*sizeof(HWVertex), D3DUSAGE_WRITEONLY, NULL, D3DPOOL_MANAGED, &g_vertexBuffer, NULL);
-	HWVertex vertices[] = {
+	g_d3dDevice->CreateVertexBuffer(3*sizeof(DemoVertex), D3DUSAGE_WRITEONLY, NULL, D3DPOOL_MANAGED, &g_vertexBuffer, NULL);
+	DemoVertex vertices[] = {
 		{0.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 0, 255)},
 		{-1.0f, 0.5f, 0.0f, D3DCOLOR_XRGB(0, 255, 0)},
 		{1.0f, 0.5f, 0.0f, D3DCOLOR_XRGB(255, 0, 0)},
 	};
 	void* data;
 	g_vertexBuffer->Lock(0, 0, &data, 0);
-	memcpy(data, vertices, 3*sizeof(HWVertex));
+	memcpy(data, vertices, 3*sizeof(DemoVertex));
 	g_vertexBuffer->Unlock();
 	g_matrixWorld = XMMatrixIdentity();
 	float aspect = g_widescreen ? 16.0f/9.0f : 4.0f/3.0f;
@@ -72,9 +72,8 @@ void initScene() {
 	XMVECTOR up = {0.0f, 1.0f, 0.0f, 0.0f};
 	g_matrixView = XMMatrixLookAtLH(eyePosition, focusPosition, up);
 }
-HRESULT initD3D() {
+void initD3D() {
 	g_d3d = Direct3DCreate9(D3D_SDK_VERSION);
-	if (!g_d3d) return E_FAIL;
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	XVIDEO_MODE videoMode;
@@ -84,19 +83,16 @@ HRESULT initD3D() {
 	d3dpp.BackBufferHeight = min(videoMode.dwDisplayHeight, 720);
 	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	d3dpp.BackBufferCount = 1;
-	d3dpp.EnableAutoDepthStencil = TRUE;
+	d3dpp.EnableAutoDepthStencil = true;
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
-	if (FAILED(g_d3d->CreateDevice(0, D3DDEVTYPE_HAL, NULL, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &g_d3dDevice))) {
-		return E_FAIL;
-	}
-	return S_OK;
+	g_d3d->CreateDevice(0, D3DDEVTYPE_HAL, NULL, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &g_d3dDevice);
 }
 void render() {
 	g_d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(52, 182, 142), 1.0f, 0);
 	g_d3dDevice->SetVertexDeclaration(g_vertexDeclaration);
-	g_d3dDevice->SetStreamSource(0, g_vertexBuffer, 0, sizeof(HWVertex));
+	g_d3dDevice->SetStreamSource(0, g_vertexBuffer, 0, sizeof(DemoVertex));
 	g_d3dDevice->SetVertexShader(g_vertexShader);
 	g_d3dDevice->SetPixelShader(g_pixelShader);
 	XMMATRIX matrixWVP = g_matrixWorld * g_matrixView * g_matrixProjection;
