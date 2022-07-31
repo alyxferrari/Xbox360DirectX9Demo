@@ -1,15 +1,21 @@
 #include "stdafx.h"
 #include "XboxController.h"
+#define PI 3.14159265358979323846264
 Direct3D* g_d3d;
 D3DDevice* g_d3dDevice;
 D3DVertexBuffer* g_vertexBuffer;
 D3DVertexDeclaration* g_vertexDeclaration;
 D3DVertexShader* g_vertexShader;
 D3DPixelShader* g_pixelShader;
+XMMATRIX g_matrixRotation;
+XMMATRIX g_matrixTranslation;
 XMMATRIX g_matrixWorld;
 XMMATRIX g_matrixProjection;
 XMMATRIX g_matrixView;
-float g_zRotation = 0.0f;
+float g_xRotation = 0.0f;
+float g_yRotation = 0.0f;
+float g_xTranslation = 0.0f;
+float g_zTranslation = -5.0f;
 bool g_shouldBreak = false;
 bool g_widescreen = true;
 const char* g_vertexShaderSource =
@@ -56,9 +62,9 @@ void initScene() {
 	g_d3dDevice->CreateVertexDeclaration(vertexElements, &g_vertexDeclaration);
 	g_d3dDevice->CreateVertexBuffer(3*sizeof(DemoVertex), D3DUSAGE_WRITEONLY, NULL, D3DPOOL_MANAGED, &g_vertexBuffer, NULL);
 	DemoVertex vertices[] = {
-		{0.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 0, 255)},
-		{-1.0f, 0.5f, 0.0f, D3DCOLOR_XRGB(0, 255, 0)},
-		{1.0f, 0.5f, 0.0f, D3DCOLOR_XRGB(255, 0, 0)},
+		{-1.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 255, 0)},
+		{0.0f, 1.0f, 0.0f, D3DCOLOR_XRGB(255, 0, 0)},
+		{1.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 0, 255)},
 	};
 	void* data;
 	g_vertexBuffer->Lock(0, 0, &data, 0);
@@ -67,10 +73,10 @@ void initScene() {
 	g_matrixWorld = XMMatrixIdentity();
 	float aspect = g_widescreen ? 16.0f/9.0f : 4.0f/3.0f;
 	g_matrixProjection = XMMatrixPerspectiveFovLH(XM_PIDIV4, aspect, 1.0f, 200.0f);
-	XMVECTOR eyePosition = {0.0f, 0.0f, -7.0f, 0.0f};
-	XMVECTOR focusPosition = {0.0f, 0.0f, 0.0f, 0.0f};
+	XMVECTOR eye = {0.0f, 0.0f, -7.0f, 0.0f};
+	XMVECTOR focus = {0.0f, 0.0f, 0.0f, 0.0f};
 	XMVECTOR up = {0.0f, 1.0f, 0.0f, 0.0f};
-	g_matrixView = XMMatrixLookAtLH(eyePosition, focusPosition, up);
+	g_matrixView = XMMatrixLookAtLH(eye, focus, up);
 }
 void initD3D() {
 	g_d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -102,16 +108,32 @@ void render() {
 }
 void updateInputs() {
 	g_shouldBreak = (getControllerButtons() & BUTTON_BACK) > 0;
-	ThumbStickState* state = getLeftThumbStick();
-	if (state->x < -16384) {
-		g_zRotation += 0.01f;
+	ThumbStickState* left = getLeftThumbStick();
+	ThumbStickState* right = getRightThumbStick();
+	if (left->x < -8192 || left->x > 8192) {
+		g_xTranslation += 0.1f * cos(-g_yRotation) * ((float) left->x / 32768.0);
+		g_zTranslation += 0.1f * sin(-g_yRotation) * ((float) left->x / 32768.0);
 	}
-	if (state->x > 16384) {
-		g_zRotation -= 0.01f;
+	if (left->y < -8192 || left->y > 8192) {
+		g_xTranslation += 0.1f * sin(g_yRotation) * ((float) left->y / 32768.0);
+		g_zTranslation += 0.1f * cos(g_yRotation) * ((float) left->y / 32768.0);
+	}
+	if (right->x < -8192) {
+		g_yRotation -= 0.03f;
+	} else if (right->x > 8192) {
+		g_yRotation += 0.03f;
+	}
+	if (right->y < -8192) {
+		g_xRotation -= 0.03f;
+	} else if (right->y > 8192) {
+		g_xRotation += 0.03f;
 	}
 }
 void updateScene() {
-	g_matrixWorld = XMMatrixRotationZ(g_zRotation);
+	XMVECTOR eye = {g_xTranslation, 0.0f, g_zTranslation, 0.0f};
+	XMVECTOR focus = {sin(g_yRotation)+g_xTranslation, sin(g_xRotation), (cos(g_xRotation)*cos(g_yRotation))+g_zTranslation, 0.0f};
+	XMVECTOR up = {0.0f, 1.0f, 0.0f, 0.0f};
+	g_matrixView = XMMatrixLookAtLH(eye, focus, up);
 }
 void deinitD3D() {
 	g_d3dDevice->Release();

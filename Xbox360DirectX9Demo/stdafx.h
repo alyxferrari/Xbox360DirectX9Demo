@@ -7,5 +7,6 @@
 
 #include <xtl.h>
 #include <xboxmath.h>
+#include <math.h>
 
 // TODO: reference additional headers your program requires here
