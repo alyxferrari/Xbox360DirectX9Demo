@@ -94,6 +94,8 @@ void initD3D() {
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE;
 	g_d3d->CreateDevice(0, D3DDEVTYPE_HAL, NULL, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &g_d3dDevice);
+	g_d3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	g_d3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 }
 void render() {
 	g_d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(52, 182, 142), 1.0f, 0);
