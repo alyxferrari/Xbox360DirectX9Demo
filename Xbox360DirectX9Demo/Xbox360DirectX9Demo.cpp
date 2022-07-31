@@ -15,6 +15,7 @@ XMMATRIX g_matrixView;
 float g_xRotation = 0.0f;
 float g_yRotation = 0.0f;
 float g_xTranslation = 0.0f;
+float g_yTranslation = 0.0f;
 float g_zTranslation = -5.0f;
 bool g_shouldBreak = false;
 bool g_widescreen = true;
@@ -45,6 +46,19 @@ struct DemoVertex {
 	float x, y, z;
 	unsigned long color;
 };
+const DemoVertex vertices[] = {
+	// floor
+	{-3.0f, -1.0f, 3.0f, D3DCOLOR_XRGB(160, 160, 160)},
+	{-3.0f, -1.0f, -3.0f, D3DCOLOR_XRGB(160, 160, 160)},
+	{3.0f, -1.0f, 3.0f, D3DCOLOR_XRGB(160, 160, 160)},
+	{-3.0f, -1.0f, -3.0f, D3DCOLOR_XRGB(160, 160, 160)},
+	{3.0f, -1.0f, 3.0f, D3DCOLOR_XRGB(160, 160, 160)},
+	{3.0f, -1.0f, -3.0f, D3DCOLOR_XRGB(160, 160, 160)},
+	// triangle
+	{-1.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 255, 0)},
+	{0.0f, 1.0f, 0.0f, D3DCOLOR_XRGB(255, 0, 0)},
+	{1.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 0, 255)},
+};
 void initScene() {
 	ID3DXBuffer* vertexShaderCode;
 	ID3DXBuffer* vertexErrorMessage;
@@ -60,21 +74,16 @@ void initScene() {
 		D3DDECL_END(),
 	};
 	g_d3dDevice->CreateVertexDeclaration(vertexElements, &g_vertexDeclaration);
-	g_d3dDevice->CreateVertexBuffer(3*sizeof(DemoVertex), D3DUSAGE_WRITEONLY, NULL, D3DPOOL_MANAGED, &g_vertexBuffer, NULL);
-	DemoVertex vertices[] = {
-		{-1.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 255, 0)},
-		{0.0f, 1.0f, 0.0f, D3DCOLOR_XRGB(255, 0, 0)},
-		{1.0f, -1.0f, 0.0f, D3DCOLOR_XRGB(0, 0, 255)},
-	};
+	g_d3dDevice->CreateVertexBuffer(sizeof(vertices), D3DUSAGE_WRITEONLY, NULL, D3DPOOL_MANAGED, &g_vertexBuffer, NULL);
 	void* data;
 	g_vertexBuffer->Lock(0, 0, &data, 0);
-	memcpy(data, vertices, 3*sizeof(DemoVertex));
+	memcpy(data, vertices, sizeof(vertices));
 	g_vertexBuffer->Unlock();
 	g_matrixWorld = XMMatrixIdentity();
 	float aspect = g_widescreen ? 16.0f/9.0f : 4.0f/3.0f;
-	g_matrixProjection = XMMatrixPerspectiveFovLH(XM_PIDIV4, aspect, 1.0f, 200.0f);
-	XMVECTOR eye = {0.0f, 0.0f, -7.0f, 0.0f};
-	XMVECTOR focus = {0.0f, 0.0f, 0.0f, 0.0f};
+	g_matrixProjection = XMMatrixPerspectiveFovLH(XM_PIDIV2, aspect, 1.0f, 200.0f);
+	XMVECTOR eye = {g_xTranslation, 0.0f, g_zTranslation, 0.0f};
+	XMVECTOR focus = {sin(g_yRotation)+g_xTranslation, sin(g_xRotation), (cos(g_xRotation)*cos(g_yRotation))+g_zTranslation, 0.0f};
 	XMVECTOR up = {0.0f, 1.0f, 0.0f, 0.0f};
 	g_matrixView = XMMatrixLookAtLH(eye, focus, up);
 }
@@ -105,7 +114,7 @@ void render() {
 	g_d3dDevice->SetPixelShader(g_pixelShader);
 	XMMATRIX matrixWVP = g_matrixWorld * g_matrixView * g_matrixProjection;
 	g_d3dDevice->SetVertexShaderConstantF(0, (float*) &matrixWVP, 4);
-	g_d3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
+	g_d3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 3);
 	g_d3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 void updateInputs() {
@@ -127,8 +136,12 @@ void updateInputs() {
 	}
 	if (right->y < -8192) {
 		g_xRotation -= 0.03f;
+		g_xRotation = g_xRotation > XM_PI / 2.0f ? XM_PI / 2.0f : g_xRotation;
+		g_xRotation = g_xRotation < -XM_PI / 2.0f ? -XM_PI / 2.0f : g_xRotation;
 	} else if (right->y > 8192) {
 		g_xRotation += 0.03f;
+		g_xRotation = g_xRotation > XM_PI / 2.0f ? XM_PI / 2.0f : g_xRotation;
+		g_xRotation = g_xRotation < -XM_PI / 2.0f ? -XM_PI / 2.0f : g_xRotation;
 	}
 }
 void updateScene() {
