@@ -7,6 +7,7 @@ D3DVertexBuffer* g_vertexBuffer;
 D3DVertexDeclaration* g_vertexDeclaration;
 D3DVertexShader* g_vertexShader;
 D3DPixelShader* g_pixelShader;
+D3DTexture* g_texture;
 XMMATRIX g_matrixRotation;
 XMMATRIX g_matrixTranslation;
 XMMATRIX g_matrixWorld;
@@ -86,6 +87,7 @@ void initScene() {
 	XMVECTOR focus = {sin(g_yRotation)+g_xTranslation, sin(g_xRotation), (cos(g_xRotation)*cos(g_yRotation))+g_zTranslation, 0.0f};
 	XMVECTOR up = {0.0f, 1.0f, 0.0f, 0.0f};
 	g_matrixView = XMMatrixLookAtLH(eye, focus, up);
+	//g_d3dDevice->CreateTexture(20, 20, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, (IDirect3DTexture9**) &g_texture, 0);
 }
 void initD3D() {
 	g_d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -108,6 +110,7 @@ void initD3D() {
 }
 void render() {
 	g_d3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(52, 182, 142), 1.0f, 0);
+	//g_d3dDevice->SetTexture(0, g_texture);
 	g_d3dDevice->SetVertexDeclaration(g_vertexDeclaration);
 	g_d3dDevice->SetStreamSource(0, g_vertexBuffer, 0, sizeof(DemoVertex));
 	g_d3dDevice->SetVertexShader(g_vertexShader);
@@ -118,9 +121,28 @@ void render() {
 	g_d3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 void updateInputs() {
-	g_shouldBreak = (getControllerButtons() & BUTTON_BACK) > 0;
+	unsigned short buttons = getControllerButtons();
+	g_shouldBreak = buttons & BUTTON_BACK;
+	if (buttons & BUTTON_A) g_yTranslation += 0.1f;
+	if (buttons & RIGHT_THUMB) g_yTranslation -= 0.1;
 	ThumbStickState* left = getLeftThumbStick();
 	ThumbStickState* right = getRightThumbStick();
+	if (buttons & DPAD_LEFT) {
+		g_xTranslation += 0.1f * cos(-g_yRotation) * -1.0f;
+		g_zTranslation += 0.1f * sin(-g_yRotation) * -1.0f;
+	}
+	if (buttons & DPAD_RIGHT) {
+		g_xTranslation += 0.1f * cos(-g_yRotation);
+		g_zTranslation += 0.1f * sin(-g_yRotation);
+	}
+	if (buttons & DPAD_DOWN) {
+		g_xTranslation += 0.1f * sin(g_yRotation) * -1.0f;
+		g_zTranslation += 0.1f * cos(g_yRotation) * -1.0f;
+	}
+	if (buttons & DPAD_UP) {
+		g_xTranslation += 0.1f * sin(g_yRotation);
+		g_zTranslation += 0.1f * cos(g_yRotation);
+	}
 	if (left->x < -8192 || left->x > 8192) {
 		g_xTranslation += 0.1f * cos(-g_yRotation) * ((float) left->x / 32768.0);
 		g_zTranslation += 0.1f * sin(-g_yRotation) * ((float) left->x / 32768.0);
@@ -136,17 +158,13 @@ void updateInputs() {
 	}
 	if (right->y < -8192) {
 		g_xRotation -= 0.03f;
-		g_xRotation = g_xRotation > XM_PI / 2.0f ? XM_PI / 2.0f : g_xRotation;
-		g_xRotation = g_xRotation < -XM_PI / 2.0f ? -XM_PI / 2.0f : g_xRotation;
 	} else if (right->y > 8192) {
 		g_xRotation += 0.03f;
-		g_xRotation = g_xRotation > XM_PI / 2.0f ? XM_PI / 2.0f : g_xRotation;
-		g_xRotation = g_xRotation < -XM_PI / 2.0f ? -XM_PI / 2.0f : g_xRotation;
 	}
 }
 void updateScene() {
-	XMVECTOR eye = {g_xTranslation, 0.0f, g_zTranslation, 0.0f};
-	XMVECTOR focus = {sin(g_yRotation)+g_xTranslation, sin(g_xRotation), (cos(g_xRotation)*cos(g_yRotation))+g_zTranslation, 0.0f};
+	XMVECTOR eye = {g_xTranslation, g_yTranslation, g_zTranslation, 0.0f};
+	XMVECTOR focus = {sin(g_yRotation)+g_xTranslation, sin(g_xRotation)+g_yTranslation, (cos(g_xRotation)*cos(g_yRotation))+g_zTranslation, 0.0f};
 	XMVECTOR up = {0.0f, 1.0f, 0.0f, 0.0f};
 	g_matrixView = XMMatrixLookAtLH(eye, focus, up);
 }
